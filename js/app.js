@@ -1,4 +1,4 @@
-let listaNomes = [];
+listaNomes = [];
 function adicionar() {
     let nomeAmigo = document.getElementById('nome-amigo');
     let amigosIncluidos = document.getElementById('lista-amigos');
@@ -12,47 +12,33 @@ function adicionar() {
 function sortear() {
     document.getElementById('lista-sorteio').innerHTML = '';
     let listaSorteio = document.getElementById('lista-sorteio');
-    let qtdItemsLista = listaNomes.length;
-    let i = 1;
-    let j = 1;
-    let indexAuxEntregar = [];
-    let indexAuxReceber = [];
-    let indexAux = [];
-    let nomeEntregar;
-    let nomeReceber;
-    if (qtdItemsLista === 0) {
-        alert('Lista de Nomes Vazia');
-    } else if (qtdItemsLista % 2 === 1) {
-        alert('Para um amigo secreto tem que ter uma quantidade par de pessoas')
-    }else{
-        while (i <= qtdItemsLista) {
-            console.log('Numero i: ' + i)
-            while (j < 3) {
-                let listaSorteador = (Math.floor(Math.random() * ((qtdItemsLista + 1) - 1) + 1)) - 1;
-                if (j == 1 && !indexAuxEntregar.includes(listaSorteador)) {
-                    console.log('entrou no primero if: ', indexAux, listaSorteador)
-                    indexAuxEntregar.push(listaSorteador);
-                    indexAux.push(listaSorteador);
-                    nomeEntregar = listaNomes[indexAuxEntregar.at(-1)];
-                } else if (j == 2 && !indexAuxReceber.includes(listaSorteador) && !indexAux.includes(listaSorteador)) {
-                    console.log('entrou no segundo if: ', indexAux, listaSorteador)
-                    indexAuxReceber.push(listaSorteador);
-                    nomeReceber = listaNomes[indexAuxReceber.at(-1)];
-                } else {
-                    j--
-                }
-
-                j++;
-
-            }
-            listaSorteio.innerHTML += `<p>${nomeEntregar} -> ${nomeReceber} </p>`;
-            indexAux = [];
-            j = 1;
-            i++;
-
+    let lista = embaralharLista(listaNomes);
+    for(let i = 0 ; i < lista.length; i++){ 
+        if(i === lista.length - 1){
+            listaSorteio.innerHTML += `${lista[i]} -> ${lista[0]}</br>`;
+        }else{
+            listaSorteio.innerHTML += `${lista[i]} -> ${lista[i+1]}</br>`;
         }
     }
 };
+function embaralharLista(lista) {
+    let listaEmbaralhada = [];
+    let tamanhoListaOriginal = lista.length
+    let i = 1;
+    while(i< tamanhoListaOriginal + 1){ 
+        let sorteadorIndex = (Math.floor(Math.random() * ((lista.length + 1) - 1) + 1)) - 1;
+        console.log( sorteadorIndex)
+        if(!listaEmbaralhada.includes(lista[sorteadorIndex])){
+            listaEmbaralhada.push(lista[sorteadorIndex])
+            i++;
+        }
+    }
+    return listaEmbaralhada;
+}
+function loopListaEmbaralhada(){
+    
+}
+
 
 function reiniciar() {
     document.getElementById('lista-sorteio').innerHTML = '';
